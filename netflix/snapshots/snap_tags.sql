@@ -10,13 +10,13 @@
     )
 }}
 
-select 
-{{ dbt_utils.generate_surrogate_key(['user_id','movie_id','tag']) }} as raw_key
+SELECT
+{{ dbt_utils.generate_surrogate_key(['user_id','movie_id','tag']) }} AS row_key,
     user_id,
     movie_id,
     tag,
-    cast(tag_timestamp as TEMISTAMP_NTZ) as tag_timestamp
-from {{ ref('src_tags') }}
-limit 100
+    CAST(tag_timestamp AS TIMESTAMP_NTZ) AS tag_timestamp
+FROM {{ ref('src_tags') }}
+LIMIT 100 
 
 {% endsnapshot %}
